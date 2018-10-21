@@ -1,6 +1,18 @@
 # shopnowat
 Open platform to build shopping cart
 
+This is a platform to all the shop keepers and the shoppers to come together for the intention to buy and sell products.
+The admin of the platform can add the shop keepers to the system. 
+The shopkeepers then can add their products and price it accordingly.
+When an order is placed by the customer/shopper, then an email will be sent to the shopper. It is the resposibility of the shopkeeper to deliver the products.
+The bills will be generated for each purchase.
+The platform hosting the service can monitor the billing history across the shopkeepers and can get the service charge as per the agreed terms.
+
+
+
+Follow the below steps to deploy the platform
+----------------------------------------------
+
 1) change build.properties file according to your environment
 
 2) build using the ant script
