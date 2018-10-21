@@ -1,0 +1,28 @@
+@charset "utf-8";	
+/* CSS for EShopper Banner */
+
+#billing-column 
+{ 
+	position: relative; 
+	width: 200px; 
+	height: 100%; 
+	margin: 0;
+	padding: 0px 0px 0px 0px; 
+	background:#FDFDF3;
+	float: left;
+	border-left:1px solid orange;
+	overflow-x:auto;
+	overflow-y:auto;
+}
+
+.orderPanel
+{
+ display: block;
+ margin: 0 auto;
+ text-align: center;
+ float: none;
+ margin-left:50%;
+ margin-right:50%;
+}
+
+

@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE mapper PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN'
+  'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+
+<mapper namespace='org.sunshine.reports.ReportMapper'>
+
+	<!-- Instead of referencing Fully Qualified Class Names we can register 
+		Aliases in mybatis-config.xml and use Alias names. -->
+	<resultMap type='OrderReport' id='OrderResult'>
+		<id property='cart_id' column='cart_id' />
+		<result property='store_id' column='store_id' />
+		<result property='create_date' column='create_date' />
+		<result property='name' column='name' />
+		<result property='phone_number' column='phone_number' />
+		<result property='alternate_phone_number' column='alternate_phone_number' />
+		<result property='email_id' column='email_id' />
+		<result property='address' column='address' />
+		<result property='total_amount' column='total_amount' />
+		<result property='purchase_status' column='purchase_status' />
+		<result property='eshopper_status' column='eshopper_status' />
+	</resultMap>
+
+	<resultMap type='ItemsInCartReport' id='ItemsInCartResult'>
+		<id property='cart_id' column='cart_id' />
+		<result property='product_id' column='product_id' />
+		<result property='name' column='name' />
+		<result property='item_quantity' column='item_quantity' />
+		<result property='price' column='price' />
+	</resultMap>
+	
+	<resultMap type='ShoppingCart' id='ShoppingCartResult'>
+		<id property='cart_id' column='cart_id' />
+		<result property='session_id' column='session_id' />
+		<result property='store_id' column='store_id' />
+		<result property='create_date' column='create_date' />
+		<result property='total_amount' column='total_amount' />
+		<result property='purchase_status' column='purchase_status' />
+		<result property='eshopper_status' column='eshopper_status' />
+	</resultMap>
+
+	<resultMap type='DueReport' id='dueResult'>
+		<id property='id' column='id' />
+		<result property='name' column='name' />
+		<result property='address' column='address' />
+		<result property='phoneNumber' column='phone_number' />
+		<result property='totalAmount' column='sum(total_amount)' />
+	</resultMap>
+	
+	<resultMap type='DueDetailsReport' id='dueDetailsResult'>
+		<id property='cartId' column='cart_id' />
+		<result property='createDate' column='create_date' />
+		<result property='totalAmount' column='total_amount' />
+		<result property='purchaseStatus' column='purchase_status' />
+		<result property='totalAmount' column='sum(total_amount)' />
+	</resultMap>
+	
+	<resultMap type='PaymentDues' id='paymentResult'>
+		<id property='id' column='id' />
+		<result property='name' column='name' />
+		<result property='address' column='address' />
+		<result property='location' column='location' />
+		<result property='phoneNumber' column='phone_number' />
+		<result property='totalAmount' column='sum(total_amount)' />
+		<result property='totalDues' column='amount_due' />
+		<result property='totalDues' column='amount_due' />
+		<result property='commissionPercentage' column='commission_percentage' />
+	</resultMap>
+	
+	<select id='getAllOrders' resultMap='OrderResult'>
+		SELECT * from shopping_carts sc,shopping_customer_info sci where sc.cart_id=sci.cart_id and sc.store_id=#{storeid}
+	</select>
+	
+	<select id='getAllOpenOrders' resultMap='OrderResult'>
+		SELECT * from shopping_carts sc,shopping_customer_info sci where sc.cart_id=sci.cart_id and sc.store_id=#{storeid} and sc.purchase_status!='delivered'
+	</select>
+	
+	<select id='getAllItemsInCart' resultMap='ItemsInCartResult'>
+		select a.cart_id,a.product_id,b.name,a.item_quantity,b.price from products b, shopping_cart_items a where a.cart_id=#{cartid} and a.product_id = b.id;
+	</select>
+	
+	<select id='getAllOrdersAcrossStores' resultMap='OrderResult'>
+		SELECT * from shopping_carts sc,shopping_customer_info sci where sc.cart_id=sci.cart_id;
+	</select>
+	
+	<select id='getAllOpenOrdersAcrossStores' resultMap='OrderResult'>
+		SELECT * from shopping_carts sc,shopping_customer_info sci where sc.cart_id=sci.cart_id and sc.purchase_status!='delivered'
+	</select>
+	
+	<select id='getShoppingCart' resultMap='ShoppingCartResult'>
+		SELECT * from shopping_carts where cart_id=#{param1}
+	</select>
+	
+	<select id='getDues' resultMap='dueResult'>
+		select distinct a.id,name,address,phone_number, sum(total_amount) from stores a, shopping_carts b where a.id=b.store_id and eshopper_status='unpaid' group by a.id
+	</select>
+	
+	<select id='getDuesDetails' resultMap='dueDetailsResult'>
+		select cart_id, create_date, total_amount, purchase_status from shopping_carts where store_id=#{param1} and eshopper_status='unpaid'
+	</select>
+	
+	<select id='getPaidService' resultMap='dueResult'>
+		select distinct a.id,name,address,phone_number, sum(total_amount) from stores a, shopping_carts b where a.id=b.store_id and eshopper_status='paid' group by a.id
+	</select>
+	
+	<select id='getServiceByStatus' resultMap='dueResult'>
+		select distinct a.id,name,address,phone_number, sum(total_amount) from stores a, shopping_carts b where a.id=b.store_id and purchase_status=#{param1} group by a.id
+	</select>
+	
+	<select id='getAllPaymentDues' resultMap='paymentResult'>
+		select distinct a.id,name,address,phone_number,location, sum(total_amount),amount_due,commission_percentage from stores a, shopping_carts b,dues c where a.id=b.store_id and eshopper_status='unpaid' and a.id=c.store_id group by a.id
+	</select>
+	
+	<select id='getServiceByStoreandStatus' resultMap='dueResult'>
+		select distinct a.id,name,address,phone_number, sum(total_amount) from stores a, shopping_carts b where b.store_id=#{param1} and a.id=b.store_id and purchase_status=#{param2} group by a.id
+	</select>
+	
+	<select id='getServiceByStoreandStatusDetails' resultMap='OrderResult'>
+		SELECT * from shopping_carts sc,shopping_customer_info sci where sc.cart_id=sci.cart_id and sc.store_id=#{param1} and sc.purchase_status=#{param2}
+	</select>
+
+	<update id='setCartPurchaseStatus' parameterType='String'>
+		update shopping_carts set purchase_status = #{param2} where cart_id = #{param1}
+	</update>
+	
+</mapper>

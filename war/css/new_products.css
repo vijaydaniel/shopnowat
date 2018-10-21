@@ -1,0 +1,97 @@
+@charset "utf-8";	
+
+html,body{
+    height: 100%
+}
+
+.orange {
+	font-size:20px;
+	color:#ee7f01;
+	font-weight: bold;
+}
+
+.orangeBannerText {
+	color:#ee7f01;
+	font-weight: bold;
+}
+
+.item
+{
+	
+}
+
+.item:hover{
+	background: #E4F0B4; 
+}
+
+.itemName
+{
+	overflow:hidden;
+}
+
+.itemImage{
+	width:140px;
+	height:140px;
+}
+
+.viewImage{
+	width:50px;
+	height:50px;
+}
+
+table.head tr th {
+    background: #eee;
+    padding: 5px;
+    border: 1px solid #eee;
+    width: 20%;
+    word-wrap: break-word;
+}
+
+.additionButton{
+	
+}
+
+.removalButton{
+	
+}
+
+.addImage{
+	width:20px;
+	height:20px;
+	padding:3;
+}
+
+.removeImage{
+	width:20px;
+	height:20px;
+	padding:3;
+}
+
+.removeImageLink{
+	
+}
+
+
+.shoppingCartItem{
+	
+}
+
+.shoppingCartItem:hover{
+	background: #E4F0B4; 
+}
+
+.menuClick {
+	
+}
+
+#searchclear {
+      position: absolute;
+      right: 5px;
+      top: 0;
+      bottom: 0;
+      height: 14px;
+      margin: auto;
+      font-size: 14px;
+      cursor: pointer;
+      color: #ff0000;
+    }

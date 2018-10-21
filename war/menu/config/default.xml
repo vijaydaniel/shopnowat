@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <menu id="1" name="ROOT">
+        <menu id="1" name="Home">
+            <menu id="1" name="Flour">
+                <menu id="1" name="Rice Flour"/>
+                <menu id="2" name="Wheat Flour"/>
+                <menu id="3" name="Corn Flour"/>
+                <menu id="4" name="Ragi Flour"/>
+            </menu>
+            <menu id="2" name="Health &amp; Wellness">
+                <menu id="1" name="Ayurvedic Medicine"/>
+                <menu id="2" name="Health Drink"/>
+                <menu id="3" name="Stomach Care"/>
+            </menu>
+            <menu id="3" name="Fruits &amp; Vegitable">
+                <menu id="1" name="Fresh Vegetable"/>
+                <menu id="2" name="Fruits"/>
+            </menu>
+        </menu>
+        <menu id="2" name="Kitchen">
+            <menu id="1" name="Spices">
+                <menu id="1" name="Masala"/>
+                <menu id="2" name="Whole Spices"/>
+                <menu id="3" name="Ground Spices"/>
+            </menu>
+            <menu id="2" name="Tea &amp; Coffee">
+                <menu id="1" name="Tea Bag"/>
+                <menu id="2" name="Coffee"/>
+            </menu>
+        </menu>
+    </menu>
+</root>

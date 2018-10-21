@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE mapper PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN'
+  'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+
+<mapper namespace='org.sunshine.payment.PaymentMapper'>
+
+	<resultMap type='PaymentDues' id='paymentResult'>
+		<id property='id' column='id' />
+		<result property='name' column='name' />
+		<result property='address' column='address' />
+		<result property='location' column='location' />
+		<result property='phoneNumber' column='phone_number' />
+		<result property='totalAmount' column='sum(total_amount)' />
+		<result property='totalDues' column='amount_due' />
+		<result property='totalDues' column='amount_due' />
+		<result property='commissionPercentage' column='commission_percentage' />
+	</resultMap>
+
+	<update id='updatePayment' parameterType='String'>
+		update dues set	amount_due = #{param2}, commission_percentage = #{param3} where	store_id = #{param1}
+	</update>
+
+	<update id='updateShopperPaymentStatus' parameterType='String'>
+		update shopping_carts set eshopper_status = #{param2} where store_id = #{param1}
+	</update>
+
+	<select id='getPaymentDuesForStore' resultMap='paymentResult'>
+		select distinct	a.id,name,address,phone_number,location,sum(total_amount),amount_due,commission_percentage from stores a,shopping_carts b,dues c where b.store_id=#{param1} and a.id=b.store_id	and eshopper_status='unpaid' and a.id=c.store_id group by a.id
+	</select>
+
+</mapper>

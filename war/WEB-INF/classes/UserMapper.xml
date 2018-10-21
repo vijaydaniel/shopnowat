@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE mapper PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN'
+  'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+
+<mapper namespace='org.sunshine.user.UserMapper'>
+
+	<!-- Instead of referencing Fully Qualified Class Names we can register 
+		Aliases in mybatis-config.xml and use Alias names. -->
+	<resultMap type='User' id='UserResult'>
+		<id property='id' column='id' />
+		<result property='name' column='name' />
+		<result property='password' column='password' />
+		<result property='phoneNumber' column='phone_number' />
+		<result property='alternatePhoneNumber' column='alternate_phone_number' />
+		<result property='emailId' column='email_id' />
+		<result property='roleId' column='role_id' />
+		<result property='storeId' column='store_id' />
+		<result property='address' column='address' />
+	</resultMap>
+	<resultMap type='ShoppingCustomerInfo' id='ShoppingCustomerInfoResult'>
+		<id property='id' column='id' />
+		<result property='cartId' column='cart_id' />
+		<result property='name' column='name' />
+		<result property='phoneNumber' column='phone_number' />
+		<result property='alternatePhoneNumber' column='alternate_phone_number' />
+		<result property='emailId' column='email_id' />
+		<result property='address' column='address' />
+	</resultMap>
+
+
+	<select id='getAllUsers' resultMap='UserResult'>
+		SELECT * from users
+	</select>
+	
+	<select id='getUserDetails' resultMap='UserResult'>
+		SELECT * from users where name = #{param1}
+	</select>
+	
+	<select id='getUserDetailsByCartId' resultMap='ShoppingCustomerInfoResult'>
+		SELECT * from shopping_customer_info where cart_id = #{param1}
+	</select>
+
+</mapper>

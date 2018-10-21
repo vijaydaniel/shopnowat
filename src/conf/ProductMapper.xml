@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE mapper PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN'
+  'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+
+<mapper namespace='org.sunshine.product.ProductMapper'>
+
+	<select id='getProductById' parameterType='int'
+		resultType='org.sunshine.domain.Product'>
+		SELECT
+		id,
+		name ,
+		description,
+		price
+		FROM products
+		WHERE id = #{productId}
+	</select>
+	
+	<select id='getSelectedProducts' parameterType='int'
+		resultType='org.sunshine.domain.Product' resultMap='ProductResult'>
+		SELECT
+		id,
+		name ,
+		description,
+		price,
+		storeid,
+		stock,
+		img,
+		category
+		FROM products
+		WHERE storeid = #{storeid}
+	</select>
+	
+	<!-- Instead of referencing Fully Qualified Class Names we can register 
+		Aliases in mybatis-config.xml and use Alias names. -->
+	<resultMap type='Product' id='ProductResult'>
+		<id property='id' column='id' />
+		<result property='name' column='name' />
+		<result property='description' column='description' />
+		<result property='price' column='price' />
+		<result property='storeid' column='storeid' />
+		<result property='stock' column='stock' />
+		<result property='img' column='img' />
+		<result property='category_id' column='category_id' />
+		<result property='subcategory_id' column='subcategory_id' />
+	</resultMap>
+	<resultMap type='ProductImage' id='ProductImageResult'>
+		<id property='id' column='id' />
+		<result property='storeid' column='storeid' />
+		<result property='img' column='img' />
+	</resultMap>
+
+	<select id='getCommonAndSpecificProductImages' resultMap='ProductImageResult'>
+		SELECT * from product_images where storeid in (${param1},0) limit ${param2},${param3}
+	</select>
+	
+	<select id='getCommonAndSpecificProductImagesbySearch' resultMap='ProductImageResult'>
+		SELECT * from product_images where storeid in (${param1},0) and img like ${param4} limit ${param2},${param3}
+	</select>
+	
+	<select id='getAllProducts' resultMap='ProductResult'>
+		SELECT * from products
+	</select>
+	
+	<select id='getSelectedProductsByName' resultMap='ProductResult'>
+		SELECT * from products where storeid = ${param1} and name like #{param2}
+	</select>
+	
+	<select id='getProductsByCategoryAndSubcategory' resultType='org.sunshine.domain.Product' resultMap='ProductResult'>
+		SELECT * from products where storeid = ${param1} and category_id= ${param2} and subcategory_id = ${param3}
+	</select>
+	
+	<select id='getProductsByStoreAndCategory' resultType='org.sunshine.domain.Product' resultMap='ProductResult'>
+		SELECT * from products where storeid = ${param1} and category_id= ${param2}
+	</select>
+	
+	<select id='getProductsByCategory' resultType='org.sunshine.domain.Product' resultMap='ProductResult'>
+		SELECT * from products where storeid = ${param1} and category like ${param2} limit ${param3},${param4}
+	</select>
+
+	<insert id='insertProduct' parameterType='Product'
+		useGeneratedKeys='true' keyProperty='id'>
+		INSERT INTO products(name, description, price)
+		VALUES(#{name}, #{description}, #{price})
+	</insert>
+
+	<update id='updateProduct' parameterType='Product'>
+		UPDATE products
+		SET
+		name= #{name},
+		description = #{description},
+		price = #{price}
+		WHERE id = #{id}
+	</update>
+
+	<delete id='deleteProduct' parameterType='int'>
+		DELETE FROM products WHERE id = #{id}
+	</delete>
+
+</mapper>

@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE mapper PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN'
+  'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+
+<mapper namespace='org.sunshine.search.SearchMapper'>
+
+	<resultMap type='Product' id='ProductSearchResult'>
+		<id property='id' column='id' />
+		<result property='name' column='name' />
+		<result property='description' column='description' />
+		<result property='price' column='price' />
+		<result property='storeid' column='storeid' />
+		<result property='stock' column='stock' />
+	</resultMap>
+	
+	<resultMap type='Store' id='StoreSearchResult'>
+		<id property='id' column='id' />
+		<result property='name' column='name' />
+		<result property='description' column='description' />
+		<result property='phone_number' column='phone_number' />
+		<result property='alternate_phone_number' column='alternate_phone_number' />
+		<result property='email_id' column='email_id' />
+		<result property='address' column='address' />
+	</resultMap>
+
+	<!-- Instead of referencing Fully Qualified Class Names we can register 
+		Aliases in mybatis-config.xml and use Alias names. -->
+	
+	<select id='getMatchingProducts' resultMap='ProductSearchResult'>
+		select * from products where storeid=#{storeid} and name like #{searchString}
+	</select>
+	
+	<select id='getMatchingProductsAcross' resultMap='ProductSearchResult'>
+		select * from products where name like #{name}
+	</select>
+	
+	<select id='getMatchingStores' resultMap='StoreSearchResult'>
+		select * from stores where name like #{name}
+	</select>
+	
+</mapper>

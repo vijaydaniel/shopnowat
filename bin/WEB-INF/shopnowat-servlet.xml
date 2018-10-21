@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:jms="http://www.springframework.org/schema/jms" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       http://www.springframework.org/schema/jee
+       http://www.springframework.org/schema/jee/spring-jee.xsd
+       http://www.springframework.org/schema/jms
+       http://www.springframework.org/schema/jms/spring-jms.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/mvc
+       http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
+	<context:component-scan base-package="org.sunshine"/>
+ 
+	<!-- <mvc:annotation-driven />	-->
+	<mvc:annotation-driven
+		content-negotiation-manager="contentNegotiationManager" />
+	<bean id="contentNegotiationManager"
+		class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
+		<!-- Turn off working out content type based on URL file extension, should 
+			fall back to looking at the Accept headers -->
+		<property name="favorPathExtension" value="false" />
+	</bean>
+	
+	<!-- the application context definition for the sunshine DispatcherServlet -->
+	<!-- <bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/> -->
+<!-- 
+	<bean name="/index.htm" class="org.sunshine.crontroller.InventoryController">
+		<property name="productService" ref="productService" />
+		<property name="storeService" ref="storeService" />
+	</bean>
+ -->
+    <bean id="productService" class="org.sunshine.product.ProductService">
+		<property name="productDataAccess" ref="productDataAccess" />
+		<property name="hibernateDataAccess" ref="hibernateDataAccess" />
+	</bean>
+	
+	<bean id="storeService" class="org.sunshine.store.StoreService">
+		<property name="storeDataAccess" ref="storeDataAccess" />
+		<property name="hibernateDataAccess" ref="hibernateDataAccess" />
+	</bean>
+	
+	<bean id="hitRateService" class="org.sunshine.hitrate.HitRateService">
+		<property name="hibernateDataAccess" ref="hibernateDataAccess" />
+	</bean>
+	
+	<bean id="locationService" class="org.sunshine.location.LocationService">
+		<property name="locationDataAccess" ref="locationDataAccess" />
+	</bean>
+	
+	<bean id="locationDataAccess" class="org.sunshine.location.LocationDataAccess">
+	</bean>
+	
+	<bean id="productDataAccess" class="org.sunshine.product.ProductDataAccess">
+	</bean>
+	
+	<bean id="storeDataAccess" class="org.sunshine.store.StoreDataAccess">
+	</bean>
+	
+	<!-- <bean name="/product.htm" class="org.sunshine.product.ProductController">
+	</bean>
+	
+	<bean name="/store.htm" class="org.sunshine.store.StoreController">
+	</bean>
+	
+	<bean name="/search.htm" class="org.sunshine.search.SearchController">
+	</bean>
+	
+	<bean name="/user.htm" class="org.sunshine.user.UserController">
+	</bean> -->
+	
+	<bean id="userService" class="org.sunshine.user.UserService">
+	</bean>
+	
+	<bean id="userDataAccess" class="org.sunshine.user.UserDataAccess">
+	</bean>
+	
+	<bean id="searchService" class="org.sunshine.search.SearchService">
+		<property name="searchDataAccess" ref="searchDataAccess" />
+	</bean>
+	
+	<bean id="searchDataAccess" class="org.sunshine.search.SearchDataAccess">
+	</bean>
+		
+	<!-- <bean name="/order.htm" class="org.sunshine.order.OrderController">
+		<property name="orderManager" ref="orderManager" />
+	</bean>
+	
+	<bean name="/all_open_carts_report.htm" class="org.sunshine.reports.ReportController">
+		<property name="reportService" ref="reportService" />
+	</bean> -->
+	
+	<bean id="reportService" class="org.sunshine.reports.ReportService">
+		<property name="reportDataAccess" ref="reportDataAccess" />
+	</bean>
+	
+	<bean id="reportDataAccess" class="org.sunshine.reports.ReportDataAccess">
+	</bean>
+	
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+	  <property name="host"><value>smtp.gmail.com</value></property>
+        <!-- <property name="port"><value>587</value></property>  -->
+        <property name="port"><value>465</value></property>
+        <property name="protocol"><value>smtp</value></property>
+        <property name="username"><value>shopnowat@gmail.com</value></property>
+        <property name="password"><value>Shop@123</value></property>
+        <property name="javaMailProperties">
+            <props>
+                <prop key="mail.smtp.auth">true</prop>
+                <prop key="mail.smtp.starttls.enable">true</prop>
+                <prop key="mail.smtp.quitwait">false</prop>
+            </props>
+        </property>
+	</bean>
+
+	<!-- this is a template message that we can pre-load with default state -->
+	<bean id="templateMessage" class="org.springframework.mail.SimpleMailMessage">
+	  <property name="from" value="vijay.danny@gmail.com"/>
+	  <property name="subject" value="Your order"/>
+	</bean>
+	
+	<bean id="orderManager" class="org.sunshine.order.OrderManager">
+	</bean>
+	
+	<bean id="jmsFactory" class="org.apache.activemq.ActiveMQConnectionFactory" >
+	 	<property name="brokerURL" value="tcp://localhost:61616"/>
+	</bean>
+	
+	<bean id="JMSTemplate" class="org.springframework.jms.core.JmsTemplate">
+	    <property name="connectionFactory" ref="connectionFactory"/>
+    </bean>
+    
+    <bean id="connectionFactory" class="org.springframework.jms.connection.SingleConnectionFactory" >
+	 	<property name="targetConnectionFactory" ref="jmsFactory" />
+	</bean>
+	
+	<bean id="destination" class="org.apache.activemq.command.ActiveMQQueue">
+		<constructor-arg value="ORDER.QUEUE" />
+	</bean>
+		
+	<bean id="orderSender" class="org.sunshine.jms.JmsQueueSender">
+		<property name="jmsTemplate" ref="JMSTemplate"/>
+		<property name="queue" ref="destination"/>
+	</bean>
+    
+    <bean id="orderListener" class="org.sunshine.jms.OrderMessageListener"/>
+    
+    <jms:listener-container concurrency="5-10">
+        <jms:listener destination="ORDER.QUEUE" ref="orderListener"/>
+  	</jms:listener-container>
+  	
+  	<!--  <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />  -->
+ 
+  	<!--  <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="500000" />    
+    </bean>  -->
+	
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.JstlView"></property>
+		<property name="prefix" value="/jsp/"></property>
+		<property name="suffix" value=".jsp"></property>
+		<property name="exposeContextBeansAsAttributes" value="true"/>
+	</bean>
+	
+	<bean id="loggingAspect" class="org.sunshine.aspects.LoggingAspects"/>
+	
+	<bean id="securityAspect" class="org.sunshine.aspects.SecurityAspects"/>
+	
+	<aop:aspectj-autoproxy/>
+
+	<aop:config>
+		<aop:aspect id="loggingAspect" ref="loggingAspect">
+		<aop:pointcut id="loggingPointCut" expression="within(org.sunshine..*)"/>
+		<aop:before pointcut-ref="loggingPointCut" method="logMethodEntryAdvice"/>
+		<aop:after-returning pointcut-ref="loggingPointCut" method="logMethodExitAdvice"/> 
+		<aop:after-throwing pointcut-ref="loggingPointCut" method="logMethodExitWithExceptionAdvice" throwing="ex"/>  
+		</aop:aspect>
+	</aop:config>
+
+</beans>

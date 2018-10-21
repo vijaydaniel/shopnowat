@@ -1,0 +1,73 @@
+@charset "utf-8";
+/* CSS for EShopper Banner */
+
+.shopnowatTable tr td {
+	padding: 5px;
+	border: 1px solid #eee;
+	/* width: 20%; */
+	word-wrap: break-word;
+}
+
+.shopnowatTable tr th {
+	background: #eee;
+	padding: 5px;
+	border: 1px solid #eee;
+	/* width: 20%; */
+	word-wrap: break-word;
+}
+
+#viewOrderSummaryTable tr td {
+	padding: 5px;
+	border: 1px solid #eee;
+	/* width: 20%; */
+	word-wrap: break-word;
+}
+
+#viewOrderSummaryTable tr th {
+	background: #eee;
+	padding: 5px;
+	border: 1px solid #eee;
+	/* width: 20%; */
+	word-wrap: break-word;
+}
+
+
+.viewOrderSummaryTableDiv {
+	/* height: 700px;
+	overflow-y: auto; */
+	padding: 10px;
+}
+
+.viewOrderDiv {
+	/* height: 700px;
+	overflow-y: auto; */
+	padding: 10px;
+} 
+
+.row-highlight {
+	background-color: Orange;
+}
+
+.row-highlight-green {
+	background-color: Green;
+}
+
+#shoppingCartItemsTable tr th {
+	background: #eee;
+	padding: 5px;
+	border: 1px solid #eee;
+	/* width: 20%; */
+	word-wrap: break-word;
+}
+
+#shoppingCartItemsTable tr td {
+	padding: 5px;
+	border: 1px solid #eee;
+	/* width: 20%; */
+	word-wrap: break-word;
+}
+
+.deliveryIcon{
+	width:35px;
+	height:25px;
+}

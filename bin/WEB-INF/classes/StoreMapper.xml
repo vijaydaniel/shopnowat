@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE mapper PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN'
+  'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+
+<mapper namespace='org.sunshine.store.StoreMapper'>
+
+	<!-- Instead of referencing Fully Qualified Class Names we can register 
+		Aliases in mybatis-config.xml and use Alias names. -->
+	<resultMap type='Store' id='StoreResult'>
+		<id property='id' column='id' />
+		<result property='name' column='name' />
+		<result property='description' column='description' />
+		<result property='phoneNumber' column='phone_number' />
+		<result property='alternatePhoneNumber' column='alternate_phone_number' />
+		<result property='emailId' column='email_id' />
+		<result property='address' column='address' />
+		<result property='location' column='location' />
+	</resultMap>
+
+	<select id='getAllStores' resultMap='StoreResult'>
+		SELECT * from stores
+	</select>
+	
+	<select id='getAllStoresByName' resultMap='StoreResult'>
+		SELECT * from stores where name like #{name}
+	</select>
+
+	<select id='getAllStoresInLocation' resultMap='StoreResult'>
+		SELECT * from stores where location = #{location}
+	</select>
+
+	<select id='getAllStoresInLocationSearch' resultMap='StoreResult'>
+		SELECT * from stores where location = #{param1} and name like #{param2}
+	</select>
+	
+	<select id='getStoreById' resultMap='StoreResult'>
+		SELECT * from stores where id = #{param1}
+	</select>
+		
+</mapper>

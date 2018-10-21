@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE configuration
+  PUBLIC '-//mybatis.org//DTD Config 3.0//EN'
+  'http://mybatis.org/dtd/mybatis-3-config.dtd'>
+<configuration>
+	<properties resource='jdbc.properties' />
+	<typeAliases>
+		<typeAlias type='org.sunshine.domain.Product' alias='Product'></typeAlias>
+		<typeAlias type='org.sunshine.domain.Store' alias='Store'></typeAlias>
+		<typeAlias type='org.sunshine.domain.User' alias='User'></typeAlias>
+		<typeAlias type='org.sunshine.domain.Location' alias='Location'></typeAlias>
+		<typeAlias type='org.sunshine.reports.OrderReport' alias='OrderReport'></typeAlias>
+		<typeAlias type='org.sunshine.reports.ItemsInCartReport'
+			alias='ItemsInCartReport'></typeAlias>
+		<typeAlias type='org.sunshine.domain.ShoppingCustomerInfo'
+			alias='ShoppingCustomerInfo'></typeAlias>
+		<typeAlias type='org.sunshine.domain.ShoppingCart' alias='ShoppingCart'></typeAlias>
+		<typeAlias type='org.sunshine.reports.DueReport' alias='DueReport'></typeAlias>
+		<typeAlias type='org.sunshine.reports.DueDetailsReport'
+			alias='DueDetailsReport'></typeAlias>
+		<typeAlias type='org.sunshine.reports.PaymentDues' alias='PaymentDues'></typeAlias>
+		<typeAlias type='org.sunshine.domain.ProductImage' alias='ProductImage'></typeAlias>
+	</typeAliases>
+	<environments default='development'>
+		<environment id='development'>
+			<transactionManager type='JDBC' />
+			<dataSource type='POOLED'>
+				<property name='driver' value='${jdbc.driverClassName}' />
+				<property name='url' value='${jdbc.url}' />
+				<property name='username' value='${jdbc.username}' />
+				<property name='password' value='${jdbc.password}' />
+			</dataSource>
+		</environment>
+	</environments>
+	<mappers>
+		<mapper resource='ProductMapper.xml' />
+		<mapper resource='StoreMapper.xml' />
+		<mapper resource='UserMapper.xml' />
+		<mapper resource='ReportMapper.xml' />
+		<mapper resource='SearchMapper.xml' />
+		<mapper resource='LocationMapper.xml' />
+		<mapper resource='PaymentMapper.xml' />
+	</mappers>
+</configuration>
